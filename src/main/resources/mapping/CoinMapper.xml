@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.CoinMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Coin">
+    <id column="coin_id" jdbcType="VARCHAR" property="coinId" />
+    <result column="chineseName" jdbcType="VARCHAR" property="chinesename" />
+    <result column="englishName" jdbcType="VARCHAR" property="englishname" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.winter.model.Coin">
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    coin_id, chineseName, englishName, status, addTime
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_coin
+    where coin_id = #{coinId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_coin
+    where coin_id = #{coinId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.Coin">
+    insert into tb_coin (coin_id, chineseName, englishName, 
+      status, addTime, description
+      )
+    values (#{coinId,jdbcType=VARCHAR}, #{chinesename,jdbcType=VARCHAR}, #{englishname,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{addtime,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.Coin">
+    insert into tb_coin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="coinId != null">
+        coin_id,
+      </if>
+      <if test="chinesename != null">
+        chineseName,
+      </if>
+      <if test="englishname != null">
+        englishName,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="addtime != null">
+        addTime,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="coinId != null">
+        #{coinId,jdbcType=VARCHAR},
+      </if>
+      <if test="chinesename != null">
+        #{chinesename,jdbcType=VARCHAR},
+      </if>
+      <if test="englishname != null">
+        #{englishname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.Coin">
+    update tb_coin
+    <set>
+      <if test="chinesename != null">
+        chineseName = #{chinesename,jdbcType=VARCHAR},
+      </if>
+      <if test="englishname != null">
+        englishName = #{englishname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="addtime != null">
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where coin_id = #{coinId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.winter.model.Coin">
+    update tb_coin
+    set chineseName = #{chinesename,jdbcType=VARCHAR},
+      englishName = #{englishname,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      addTime = #{addtime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where coin_id = #{coinId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.Coin">
+    update tb_coin
+    set chineseName = #{chinesename,jdbcType=VARCHAR},
+      englishName = #{englishname,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      addTime = #{addtime,jdbcType=TIMESTAMP}
+    where coin_id = #{coinId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Notice">
+    <result column="noticeId" jdbcType="VARCHAR" property="noticeid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="creationTime" jdbcType="TIMESTAMP" property="creationtime" />
+    <result column="noticeType" jdbcType="CHAR" property="noticetype" />
+    <result column="status" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.winter.model.Notice">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <insert id="insert" parameterType="com.winter.model.Notice">
+    insert into tb_notice (noticeId, title, creationTime, 
+      noticeType, status, content
+      )
+    values (#{noticeid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{creationtime,jdbcType=TIMESTAMP}, 
+      #{noticetype,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.Notice">
+    insert into tb_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeid != null">
+        noticeId,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="creationtime != null">
+        creationTime,
+      </if>
+      <if test="noticetype != null">
+        noticeType,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeid != null">
+        #{noticeid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="creationtime != null">
+        #{creationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticetype != null">
+        #{noticetype,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

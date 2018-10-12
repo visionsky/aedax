@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.AssetMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Asset">
+    <id column="userId" jdbcType="VARCHAR" property="userid" />
+    <id column="coinId" jdbcType="VARCHAR" property="coinid" />
+    <result column="availableAsset" jdbcType="DECIMAL" property="availableasset" />
+    <result column="frozenAsset" jdbcType="DECIMAL" property="frozenasset" />
+    <result column="totalAsset" jdbcType="DECIMAL" property="totalasset" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="walletAddress" jdbcType="VARCHAR" property="walletaddress" />
+    <result column="memoWords" jdbcType="VARCHAR" property="memowords" />
+    <result column="publicKey" jdbcType="VARCHAR" property="publickey" />
+    <result column="privateKey" jdbcType="VARCHAR" property="privatekey" />
+    <result column="status" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    userId, coinId, availableAsset, frozenAsset, totalAsset, updateTime, walletAddress, 
+    memoWords, publicKey, privateKey, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.winter.model.AssetKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_asset
+    where userId = #{userid,jdbcType=VARCHAR}
+      and coinId = #{coinid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.winter.model.AssetKey">
+    delete from tb_asset
+    where userId = #{userid,jdbcType=VARCHAR}
+      and coinId = #{coinid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.Asset">
+    insert into tb_asset (userId, coinId, availableAsset, 
+      frozenAsset, totalAsset, updateTime, 
+      walletAddress, memoWords, publicKey, 
+      privateKey, status)
+    values (#{userid,jdbcType=VARCHAR}, #{coinid,jdbcType=VARCHAR}, #{availableasset,jdbcType=DECIMAL}, 
+      #{frozenasset,jdbcType=DECIMAL}, #{totalasset,jdbcType=DECIMAL}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{walletaddress,jdbcType=VARCHAR}, #{memowords,jdbcType=VARCHAR}, #{publickey,jdbcType=VARCHAR}, 
+      #{privatekey,jdbcType=VARCHAR}, #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.Asset">
+    insert into tb_asset
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="coinid != null">
+        coinId,
+      </if>
+      <if test="availableasset != null">
+        availableAsset,
+      </if>
+      <if test="frozenasset != null">
+        frozenAsset,
+      </if>
+      <if test="totalasset != null">
+        totalAsset,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="walletaddress != null">
+        walletAddress,
+      </if>
+      <if test="memowords != null">
+        memoWords,
+      </if>
+      <if test="publickey != null">
+        publicKey,
+      </if>
+      <if test="privatekey != null">
+        privateKey,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="coinid != null">
+        #{coinid,jdbcType=VARCHAR},
+      </if>
+      <if test="availableasset != null">
+        #{availableasset,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenasset != null">
+        #{frozenasset,jdbcType=DECIMAL},
+      </if>
+      <if test="totalasset != null">
+        #{totalasset,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="walletaddress != null">
+        #{walletaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="memowords != null">
+        #{memowords,jdbcType=VARCHAR},
+      </if>
+      <if test="publickey != null">
+        #{publickey,jdbcType=VARCHAR},
+      </if>
+      <if test="privatekey != null">
+        #{privatekey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.Asset">
+    update tb_asset
+    <set>
+      <if test="availableasset != null">
+        availableAsset = #{availableasset,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenasset != null">
+        frozenAsset = #{frozenasset,jdbcType=DECIMAL},
+      </if>
+      <if test="totalasset != null">
+        totalAsset = #{totalasset,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="walletaddress != null">
+        walletAddress = #{walletaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="memowords != null">
+        memoWords = #{memowords,jdbcType=VARCHAR},
+      </if>
+      <if test="publickey != null">
+        publicKey = #{publickey,jdbcType=VARCHAR},
+      </if>
+      <if test="privatekey != null">
+        privateKey = #{privatekey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=VARCHAR}
+      and coinId = #{coinid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.Asset">
+    update tb_asset
+    set availableAsset = #{availableasset,jdbcType=DECIMAL},
+      frozenAsset = #{frozenasset,jdbcType=DECIMAL},
+      totalAsset = #{totalasset,jdbcType=DECIMAL},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      walletAddress = #{walletaddress,jdbcType=VARCHAR},
+      memoWords = #{memowords,jdbcType=VARCHAR},
+      publicKey = #{publickey,jdbcType=VARCHAR},
+      privateKey = #{privatekey,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR}
+    where userId = #{userid,jdbcType=VARCHAR}
+      and coinId = #{coinid,jdbcType=VARCHAR}
+  </update>
+</mapper>

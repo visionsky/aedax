@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.AssetChangeMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.AssetChange">
+    <result column="assetChangeId" jdbcType="VARCHAR" property="assetchangeid" />
+    <result column="userId" jdbcType="VARCHAR" property="userid" />
+    <result column="coinId" jdbcType="VARCHAR" property="coinid" />
+    <result column="number" jdbcType="DECIMAL" property="number" />
+    <result column="direction" jdbcType="CHAR" property="direction" />
+    <result column="customerId" jdbcType="VARCHAR" property="customerid" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="associateId" jdbcType="VARCHAR" property="associateid" />
+    <result column="operatorId" jdbcType="VARCHAR" property="operatorid" />
+    <result column="availableAssetBeforeChange" jdbcType="DECIMAL" property="availableassetbeforechange" />
+    <result column="frozenAssetBeforeChange" jdbcType="DECIMAL" property="frozenassetbeforechange" />
+    <result column="totalAssetBeforeChange" jdbcType="DECIMAL" property="totalassetbeforechange" />
+    <result column="availableAssetAfterChange" jdbcType="DECIMAL" property="availableassetafterchange" />
+    <result column="frozenAssetAfterChange" jdbcType="DECIMAL" property="frozenassetafterchange" />
+    <result column="totalAssetAfterChange" jdbcType="DECIMAL" property="totalassetafterchange" />
+    <result column="status" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <insert id="insert" parameterType="com.winter.model.AssetChange">
+    insert into tb_assetchange (assetChangeId, userId, coinId, 
+      number, direction, customerId, 
+      time, type, associateId, 
+      operatorId, availableAssetBeforeChange, 
+      frozenAssetBeforeChange, totalAssetBeforeChange, 
+      availableAssetAfterChange, frozenAssetAfterChange, 
+      totalAssetAfterChange, status)
+    values (#{assetchangeid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{coinid,jdbcType=VARCHAR}, 
+      #{number,jdbcType=DECIMAL}, #{direction,jdbcType=CHAR}, #{customerid,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{type,jdbcType=CHAR}, #{associateid,jdbcType=VARCHAR}, 
+      #{operatorid,jdbcType=VARCHAR}, #{availableassetbeforechange,jdbcType=DECIMAL}, 
+      #{frozenassetbeforechange,jdbcType=DECIMAL}, #{totalassetbeforechange,jdbcType=DECIMAL}, 
+      #{availableassetafterchange,jdbcType=DECIMAL}, #{frozenassetafterchange,jdbcType=DECIMAL}, 
+      #{totalassetafterchange,jdbcType=DECIMAL}, #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.AssetChange">
+    insert into tb_assetchange
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="assetchangeid != null">
+        assetChangeId,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="coinid != null">
+        coinId,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="direction != null">
+        direction,
+      </if>
+      <if test="customerid != null">
+        customerId,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="associateid != null">
+        associateId,
+      </if>
+      <if test="operatorid != null">
+        operatorId,
+      </if>
+      <if test="availableassetbeforechange != null">
+        availableAssetBeforeChange,
+      </if>
+      <if test="frozenassetbeforechange != null">
+        frozenAssetBeforeChange,
+      </if>
+      <if test="totalassetbeforechange != null">
+        totalAssetBeforeChange,
+      </if>
+      <if test="availableassetafterchange != null">
+        availableAssetAfterChange,
+      </if>
+      <if test="frozenassetafterchange != null">
+        frozenAssetAfterChange,
+      </if>
+      <if test="totalassetafterchange != null">
+        totalAssetAfterChange,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="assetchangeid != null">
+        #{assetchangeid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="coinid != null">
+        #{coinid,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=DECIMAL},
+      </if>
+      <if test="direction != null">
+        #{direction,jdbcType=CHAR},
+      </if>
+      <if test="customerid != null">
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="associateid != null">
+        #{associateid,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null">
+        #{operatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="availableassetbeforechange != null">
+        #{availableassetbeforechange,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenassetbeforechange != null">
+        #{frozenassetbeforechange,jdbcType=DECIMAL},
+      </if>
+      <if test="totalassetbeforechange != null">
+        #{totalassetbeforechange,jdbcType=DECIMAL},
+      </if>
+      <if test="availableassetafterchange != null">
+        #{availableassetafterchange,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenassetafterchange != null">
+        #{frozenassetafterchange,jdbcType=DECIMAL},
+      </if>
+      <if test="totalassetafterchange != null">
+        #{totalassetafterchange,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
