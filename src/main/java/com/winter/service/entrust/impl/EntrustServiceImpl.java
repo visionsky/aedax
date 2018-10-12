@@ -18,8 +18,7 @@ public class EntrustServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;//这里会报错，但是并不会影响
-    @Autowired
-    private VerifyCodeMapper verifyCodeMapper;//这里会报错，但是并不会影响
+
 
 
 
@@ -50,10 +49,7 @@ public class EntrustServiceImpl implements UserService {
                 return "验证码错误";
         password=MD5Util.getMD5String(userid+password);
         int line=userMapper.changePassword( userid, tokenid, phone, password);
-        if(line==1) {
-            line=verifyCodeMapper.updateStatus(uuid);
-            if(line==1)return userid;
-        }
+
         return "注册失败";
     }
 
@@ -74,10 +70,7 @@ public class EntrustServiceImpl implements UserService {
         inviteCode= StringUtils.toSerialCode(id);
         User register = new User( userId, nickname, phone, email, source, password, inviteCode, inviteuserid);
         int line=userMapper.insertSelective(register);
-        if(line==1) {
-            line=verifyCodeMapper.updateStatus(uuid);
-            if(line==1)return userId;
-        }
+
         return "注册失败";
     }
 
@@ -110,10 +103,7 @@ public class EntrustServiceImpl implements UserService {
         verifyCode.setVerifypiccode(verifyPicCode);
         verifyCode.setVerifysmscode(verifySmsCode);
         verifyCode.setStatus("2");
-        VerifyCode verify=verifyCodeMapper.selectByAll(verifyCode);
-        if(verify!=null)
-            return verify.getVerifycodeId();
-        else return "";
+       return "";
     }
 
     /*
