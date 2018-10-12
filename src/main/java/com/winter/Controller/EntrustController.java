@@ -1,7 +1,7 @@
 package com.winter.Controller;
 
 
-import com.winter.service.user.UserService;
+import com.winter.service.entrust.EntrustService;
 import com.winter.service.user.VerifyService;
 import com.winter.utils.IPUtil;
 import com.winter.utils.SCaptcha;
@@ -20,14 +20,14 @@ import java.io.IOException;
 public class EntrustController {
 
     @Autowired
-    private UserService userService;
+    private EntrustService entrustService;
     @Autowired
     private VerifyService verifyService;
 
 
-    @PostMapping("/getUuid/{source}")
-    @RequestMapping("/getUuid/{source}")
-    public String getUuid(@PathVariable("source") String source,HttpServletRequest request) {
+    @PostMapping("/entrust/{source}")
+    @RequestMapping("/entrust/{source}")
+    public String entrust(@PathVariable("source") String source,HttpServletRequest request) {
 
         String uuid=StringUtils.UUID();
         String ip = IPUtil.getIP(request);
@@ -51,7 +51,7 @@ public class EntrustController {
         String ip = IPUtil.getIP(request);
       //  User register = new User();
 
-        String ret= userService.registerUser( uuid, ip,nickname, phone, source, verifyPicCode, verifySmsCode, password, inviteCode);
+        String ret= entrustService.registerUser( uuid, ip,nickname, phone, source, verifyPicCode, verifySmsCode, password, inviteCode);
         return ret;
         //  return userService.getUser();
     }
@@ -64,7 +64,7 @@ public class EntrustController {
 
         //phone= "";
         // String ret= userService.userTest(para);
-        int ret=userService.checkRegisterUser( phone, email,idCardNum);
+        int ret=entrustService.checkRegisterUser( phone, email,idCardNum);
         return ret+"";
         //  return userService.getUser();
     }
@@ -75,7 +75,7 @@ public class EntrustController {
         nickname="";
         //phone= "";
        // String ret= userService.userTest(para);
-        String ret=userService.login( phone,nickname, email,password);
+        String ret=entrustService.login( phone,nickname, email,password);
         return ret;
         //  return userService.getUser();
     }
@@ -83,7 +83,7 @@ public class EntrustController {
    @PutMapping("/login/{source}/{userid}/{tokenid}")
    //@RequestMapping("/logout/{source}/{userid}/{tokenid}")
     public int logout(@PathVariable("source") String source,@PathVariable("userid") String userid,@PathVariable("tokenid") String tokenid) {
-        int ret=userService.logout(userid,tokenid);
+        int ret=entrustService.logout(userid,tokenid);
         return  ret;
         //  return userService.getUser();
     }
@@ -92,7 +92,7 @@ public class EntrustController {
     //@RequestMapping("/findPassword/{source}/{userid}/{tokenid}/{phone}/{verifyPicCode}/{verifySmsCode}/{password}")
     public String findPassword(@PathVariable("source") String source,@PathVariable("userid") String userid,@PathVariable("tokenid") String tokenid,@PathVariable("phone") String phone,@PathVariable("verifyPicCode") String verifyPicCode,@PathVariable("verifySmsCode") String verifySmsCode,@PathVariable("password") String password,HttpServletRequest request) {
         String ip = IPUtil.getIP(request);
-        String ret=userService.changePassword(  userid, tokenid, ip, source, phone, verifyPicCode, verifySmsCode, password);
+        String ret=entrustService.changePassword(  userid, tokenid, ip, source, phone, verifyPicCode, verifySmsCode, password);
         return ret;
         //  return userService.getUser();
     }
