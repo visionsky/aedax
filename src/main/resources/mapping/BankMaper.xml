@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.winter.mapper.BankMapper">
+
+    <select id="findAll" resultType="com.winter.model.Bank">
+        select * from  tb_bank
+
+    </select>
+
+
+    <insert id=" addBank" parameterType="com.winter.model.Bank">
+        insert into  tb_bank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="bank_id !=null and bank_id !='' ">
+                bank_id,
+
+            </if>
+
+            <if test="name !=null and name !='' ">
+               name,
+
+            </if>
+
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="bank_id !=null and bank_id !='' ">
+              #{bank_id}
+
+            </if>
+
+            <if test="name !=null and name !='' ">
+
+                #{name }
+
+            </if>
+
+        </trim>
+
+    </insert>
+
+
+    <select id="selectBankByName" parameterType="String" resultType="com.winter.model.Bank">
+        select * from tb_bank where  name  like ${value }
+    </select>
+
+
+<delete id="deleteById" parameterType="integer">
+
+    delete  from  tb_bank  where bank_id = #{id}
+
+</delete>
+
+
+    <update id="updateBankById" parameterType="com.winter.model.Bank">
+        update  tb_bank
+         <set>
+             <if test="name !=null and name !=''">
+                 name =#{name }
+
+             </if>
+
+         </set>
+
+        where  bank_id=#{bank_id}
+
+
+
+    </update>
+
+
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.winter.mapper.BankCardMapper">
+    <select id="selectByUserId" parameterType="String" resultType="com.winter.model.BankCard">
+        select * from  tb_bankCard where  user_id=#{id}
+
+    </select>
+
+    <insert id="addBankCard" parameterType="com.winter.model.BankCard">
+        insert  into tb_bankCard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bank_id !=null and bank_id !=''"></if>
+
+        </trim>
+
+    </insert>
+
+    <delete id="deleteByBankCardId" parameterType="String">
+        delete from tb_bankCard where  bank_id=#{bank_id}
+
+    </delete>
+
+    <delete id="deleteByUserId" parameterType="String">
+        delete from tb_bankCard where  user_id=#{user_id}
+    </delete>
+
+</mapper>

@@ -1,7 +1,12 @@
 package com.winter.service.entrust;
 
+import com.winter.model.Entrust;
+import com.winter.model.Revoke;
+import com.winter.model.Transaction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/8/16.
@@ -11,14 +16,17 @@ public interface EntrustService {
 
 
     //long getUserCount();
-    String userTest(String inviteCode);
+
     @Transactional
-    String registerUser(String uuid, String ip, String nickname, String phone, String source, String verifyPicCode, String verifySmsCode, String password, String inviteCode);
-    int checkRegisterUser(String phone, String email, String idCardNum);
-    String login(String phone, String nickname, String email, String password);
-    int logout(String userid, String tokenid);
+    String entrust(Entrust record);
+    List<Entrust> queryEntrusts(Entrust record);
     @Transactional
-    String changePassword(String userid, String tokenid, String ip, String source, String phone, String verifyPicCode, String verifySmsCode, String password);
+    String revoke(Revoke record);
+    List<Revoke> queryRevokes(Revoke record);
+    @Transactional
+    String confirm(Transaction record);
+    List<Transaction> queryTransactions(Transaction record);
+
 
  //   List<User> findAllUser(int pageNum, int pageSize);
 }

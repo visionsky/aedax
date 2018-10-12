@@ -16,6 +16,15 @@
     from tb_revoke
     where revokeId = #{revokeid,jdbcType=VARCHAR}
   </select>
+  <select id="select" parameterType="com.winter.model.Revoke" resultType="com.winter.model.Revoke">
+    select * from tb_revoke
+    <where>
+      <if test="revokeid != null and revokeid.length()>0">  revokeId = #{revokeid}  </if>
+      <if test="revoketime != null and revoketime.length()>0">  revokeTime = #{revoketime}  </if>
+      <if test="entrustid != null and entrustid.length()>0">  entrustId = #{entrustid}  </if>
+      <if test="revokenumber != null ">  revokeNumber = #{revokenumber}  </if>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tb_revoke
     where revokeId = #{revokeid,jdbcType=VARCHAR}
@@ -23,7 +32,7 @@
   <insert id="insert" parameterType="com.winter.model.Revoke">
     insert into tb_revoke (revokeId, revokeTime, entrustId, 
       revokeNumber)
-    values (#{revokeid,jdbcType=VARCHAR}, #{revoketime,jdbcType=TIMESTAMP}, #{entrustid,jdbcType=VARCHAR}, 
+    values (#{revokeid,jdbcType=VARCHAR},  sysdate(), #{entrustid,jdbcType=VARCHAR},
       #{revokenumber,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.winter.model.Revoke">

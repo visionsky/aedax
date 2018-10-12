@@ -19,6 +19,9 @@
     <result column="lastChangeDate" jdbcType="TIMESTAMP" property="lastchangedate" />
     <result column="tokenId" jdbcType="VARCHAR" property="tokenid" />
     <result column="tokenExpireDate" jdbcType="TIMESTAMP" property="tokenexpiredate" />
+    <result column="idCardFront" jdbcType="VARCHAR" property="idCardFront" />
+    <result column="idCardOpposite" jdbcType="VARCHAR" property="idCardOpposite" />
+    <result column="level" jdbcType="CHAR" property="level" />
     <result column="status" jdbcType="CHAR" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -89,14 +92,14 @@
       password, appPassword, payPassword, 
       registerDate, inviteCode, inviteUserId, 
       registerSource, defaultBankCard_id, lastChangeDate, 
-      tokenId, tokenExpireDate, status
+      tokenId, tokenExpireDate, level,status
       )
     values (#{userId,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{idcardnum,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{apppassword,jdbcType=VARCHAR}, #{paypassword,jdbcType=VARCHAR}, 
       #{registerdate,jdbcType=TIMESTAMP}, #{invitecode,jdbcType=VARCHAR}, #{inviteuserid,jdbcType=VARCHAR}, 
       #{registersource,jdbcType=CHAR}, #{defaultbankcardId,jdbcType=VARCHAR}, #{lastchangedate,jdbcType=TIMESTAMP}, 
-      #{tokenid,jdbcType=VARCHAR}, #{tokenexpiredate,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}
+      #{tokenid,jdbcType=VARCHAR}, #{tokenexpiredate,jdbcType=TIMESTAMP},'0', #{status,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.winter.model.User">
@@ -150,7 +153,7 @@
         tokenExpireDate,
       </if>
 
-        status,
+        level,status,
 
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -201,7 +204,7 @@
       <if test="tokenexpiredate != null">
         #{tokenexpiredate,jdbcType=TIMESTAMP},
       </if>
-      '1',
+      '0','1',
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.User">

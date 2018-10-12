@@ -17,6 +17,17 @@
     from tb_transaction
     where transactionId = #{transactionid,jdbcType=VARCHAR}
   </select>
+  <select id="select" parameterType="com.winter.model.Transaction" resultType="com.winter.model.Transaction">
+    select * from tb_transaction
+    <where>
+      <if test="transactionid != null and transactionid.length()>0">  transactionId = #{transactionid}  </if>
+      <if test="buyerentrustid != null and buyerentrustid.length()>0">  buyerEntrustId = #{buyerentrustid}  </if>
+      <if test="sellerentrustid != null and sellerentrustid.length()>0">  sellerEntrustId = #{sellerentrustid}  </if>
+      <if test="transactionnumber != null ">  transactionNumber = #{transactionnumber}  </if>
+      <if test="transactiontime != null and transactiontime.length()>0">  transactionTime = #{transactiontime}  </if>
+
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tb_transaction
     where transactionId = #{transactionid,jdbcType=VARCHAR}
@@ -25,7 +36,7 @@
     insert into tb_transaction (transactionId, buyerEntrustId, sellerEntrustId, 
       transactionNumber, transactionTime)
     values (#{transactionid,jdbcType=VARCHAR}, #{buyerentrustid,jdbcType=VARCHAR}, #{sellerentrustid,jdbcType=VARCHAR}, 
-      #{transactionnumber,jdbcType=DECIMAL}, #{transactiontime,jdbcType=TIMESTAMP})
+      #{transactionnumber,jdbcType=DECIMAL},  sysdate())
   </insert>
   <insert id="insertSelective" parameterType="com.winter.model.Transaction">
     insert into tb_transaction

@@ -1,110 +1,91 @@
 package com.winter.service.entrust.impl;
 
-import com.winter.mapper.UserMapper;
-import com.winter.mapper.VerifyCodeMapper;
-import com.winter.model.User;
-import com.winter.model.VerifyCode;
+import com.winter.mapper.EntrustMapper;
+import com.winter.mapper.RevokeMapper;
+import com.winter.mapper.TransactionMapper;
+import com.winter.model.*;
+import com.winter.service.entrust.EntrustService;
 import com.winter.service.user.UserService;
 import com.winter.utils.MD5Util;
 import com.winter.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/8/16.
  */
 @Service(value = "entrustService")
-public class EntrustServiceImpl implements UserService {
+public class EntrustServiceImpl implements EntrustService {
+
 
     @Autowired
-    private UserMapper userMapper;//这里会报错，但是并不会影响
+    private EntrustMapper entrustMapper;//这里会报错，但是并不会影响
 
+    @Autowired
+    private RevokeMapper revokeMapper;//这里会报错，但是并不会影响
 
-
+    @Autowired
+    private TransactionMapper transactionMapper;//这里会报错，但是并不会影响
 
     @Override
-    public String login(String phone, String nickname, String email, String password) {
-        String userId= userMapper.getUserId(phone, nickname, email);
-       // if(true)return userId;
-      //  Map<String,Object> map = new HashMap<>();
-       // map.put("userInfo",userInfo);
-       // map.put("page",page);
-        password=MD5Util.getMD5String(userId+password);
-        String tokenid=StringUtils.UUID();
-        int ret=userMapper.login(userId, password,tokenid);
+    public String entrust(Entrust record) {
+        String entrustId=StringUtils.UUID();
+        record.setEntrustid(entrustId);
+        BigDecimal amount=new BigDecimal("0.000");
+        record.setCancelnumber(amount);
+        record.setSurplusnumber(amount);
+        record.setServicecharge(amount);
+        record.setTransactionnumber(amount);
+        int ret=entrustMapper.insert(record);
         if(ret==1)
-        return tokenid;
+            return entrustId;
         else return "";
     }
 
     @Override
-    public int logout(String userid, String tokenid) {
-        return userMapper.logout(userid, tokenid);
+    public List<Entrust> queryEntrusts(Entrust record) {
+        return entrustMapper.select(record);
     }
 
     @Override
-    public String changePassword(String userid,String tokenid,String ip,String source,String phone,String verifyPicCode,String verifySmsCode,String password) {
-        String uuid=queryVerifyCode( "",userid, source, phone, ip, verifyPicCode, verifySmsCode);
-            if(uuid==null||uuid.isEmpty())
-                return "验证码错误";
-        password=MD5Util.getMD5String(userid+password);
-        int line=userMapper.changePassword( userid, tokenid, phone, password);
+    public String revoke(Revoke record) {
+        String entrustId=StringUtils.UUID();
+        record.setRevokeid(entrustId);
+        BigDecimal amount=new BigDecimal("0.000");
 
-        return "注册失败";
-    }
-
-
-    @Override
-    public String registerUser(String uuid,String ip,String nickname,String phone,String source,String verifyPicCode,String verifySmsCode,String password,String inviteCode) {
-        String email="";
-        String inviteuserid="";
-        uuid=queryVerifyCode( uuid,"", source, phone, ip, verifyPicCode, verifySmsCode);
-        if(uuid==null||uuid.isEmpty())
-            return "验证码错误";//checkRegisterUser( phone, email,idCardNum)
-        if(checkRegisterUser( phone,"", "")>0)
-            return "已注册";
-        String userId= StringUtils.UUID();
-        long id=userMapper.countUser()+1;
-        password=MD5Util.getMD5String(userId+password);
-        if(!inviteCode.isEmpty()&&inviteCode.length()>0)inviteuserid=userMapper.getInviterUserId(inviteCode);
-        inviteCode= StringUtils.toSerialCode(id);
-        User register = new User( userId, nickname, phone, email, source, password, inviteCode, inviteuserid);
-        int line=userMapper.insertSelective(register);
-
-        return "注册失败";
+        int ret=revokeMapper.insert(record);
+        if(ret==1)
+            return entrustId;
+        else return "";
     }
 
     @Override
-    public int checkRegisterUser(String phone, String email,String idCardNum) {
-        User register = new User();
-        register.setPhone(phone);
-        register.setEmail(email);
-        register.setIdcardnum(idCardNum);
-        int ret=userMapper.checkRegisterUser(register);
-
-        return ret;
+    public List<Revoke> queryRevokes(Revoke record) {
+        return revokeMapper.select(record);
     }
 
     @Override
-    public String userTest( String inviteCode) {
-        return userMapper.getInviterUserId(inviteCode);
-       // return userMapper.countUser().toString();
-        //return userMapper.getUser().toString();
-        //  return userMapper.getUser().getUserName();
+    public String confirm(Transaction record) {
+        String entrustId=StringUtils.UUID();
+        record.setTransactionid(entrustId);
+        BigDecimal amount=new BigDecimal("0.000");
+
+        record.setTransactionnumber(amount);
+        int ret=transactionMapper.insert(record);
+        if(ret==1)
+            return entrustId;
+        else return "";
     }
 
-    public String  queryVerifyCode(String uuid,String userid,String source,String phone,String ip,String verifyPicCode,String verifySmsCode) {
-        VerifyCode verifyCode=new VerifyCode();
-        verifyCode.setVerifycodeId(uuid);
-        verifyCode.setUserId(userid);
-        verifyCode.setIp(ip);
-        verifyCode.setSource(source);
-        verifyCode.setPhone(phone);
-        verifyCode.setVerifypiccode(verifyPicCode);
-        verifyCode.setVerifysmscode(verifySmsCode);
-        verifyCode.setStatus("2");
-       return "";
+    @Override
+    public List<Transaction> queryTransactions(Transaction record) {
+        return transactionMapper.select(record);
     }
+
+
 
     /*
     * 这个方法中用到了我们开头配置依赖的分页插件pagehelper

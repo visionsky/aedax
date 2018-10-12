@@ -36,6 +36,33 @@ public class User {
     private String tokenid;
 
     private Date tokenexpiredate;
+    private String idCardFront;
+    private String idCardOpposite;
+    private String level;
+
+    public String getIdCardFront() {
+        return idCardFront;
+    }
+
+    public void setIdCardFront(String idCardFront) {
+        this.idCardFront = idCardFront;
+    }
+
+    public String getIdCardOpposite() {
+        return idCardOpposite;
+    }
+
+    public void setIdCardOpposite(String idCardOpposite) {
+        this.idCardOpposite = idCardOpposite;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
     private String status;
     public User(){

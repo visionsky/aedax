@@ -27,6 +27,24 @@
     from tb_entrust
     where entrustId = #{entrustid,jdbcType=VARCHAR}
   </select>
+  <select id="select" parameterType="com.winter.model.Entrust" resultType="com.winter.model.Entrust">
+    select * from tb_entrust
+    <where>
+      <if test="userid != null and userid.length()>0">  userId = #{userid}  </if>
+      <if test="outcoinid != null and outcoinid.length()>0">  outCoinId = #{outcoinid}  </if>
+      <if test="incoinid != null and incoinid.length()>0">  inCoinId = #{incoinid}  </if>
+      <if test="entrustdirection != null and entrustdirection.length()>0">  entrustDirection = #{entrustdirection}  </if>
+      <if test="type != null and type.length()>0">  type = #{type}  </if>
+      <if test="entrustnumber != null ">  entrustNumber = #{entrustnumber}  </if>
+      <if test="coinprice != null ">  coinPrice = #{coinprice}  </if>
+      <if test="servicecharge != null ">  serviceCharge = #{servicecharge}  </if>
+      <if test="transactionnumber != null ">  transactionNumber = #{transactionnumber}  </if>
+      <if test="cancelnumber != null ">  cancelNumber = #{cancelnumber}  </if>
+      <if test="surplusnumber != null ">  surplusNumber = #{surplusnumber}  </if>
+      <if test="entrusttime != null and entrusttime.length()>0">  entrustTime = #{entrusttime}  </if>
+      <if test="status != null and status.length()>0">  status = #{status}  </if>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tb_entrust
     where entrustId = #{entrustid,jdbcType=VARCHAR}
@@ -38,10 +56,10 @@
       transactionNumber, cancelNumber, surplusNumber, 
       entrustTime, status)
     values (#{entrustid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{outcoinid,jdbcType=VARCHAR}, 
-      #{incoinid,jdbcType=VARCHAR}, #{entrustdirection,jdbcType=CHAR}, #{type,jdbcType=CHAR}, 
+      #{incoinid,jdbcType=VARCHAR}, #{entrustdirection,jdbcType=CHAR}, '0',
       #{entrustnumber,jdbcType=DECIMAL}, #{coinprice,jdbcType=DECIMAL}, #{servicecharge,jdbcType=DECIMAL}, 
       #{transactionnumber,jdbcType=DECIMAL}, #{cancelnumber,jdbcType=DECIMAL}, #{surplusnumber,jdbcType=DECIMAL}, 
-      #{entrusttime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR})
+       sysdate(), '0')
   </insert>
   <insert id="insertSelective" parameterType="com.winter.model.Entrust">
     insert into tb_entrust
