@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.RevokeMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Revoke">
+    <id column="revokeId" jdbcType="VARCHAR" property="revokeid" />
+    <result column="revokeTime" jdbcType="TIMESTAMP" property="revoketime" />
+    <result column="entrustId" jdbcType="VARCHAR" property="entrustid" />
+    <result column="revokeNumber" jdbcType="DECIMAL" property="revokenumber" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    revokeId, revokeTime, entrustId, revokeNumber
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_revoke
+    where revokeId = #{revokeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_revoke
+    where revokeId = #{revokeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.Revoke">
+    insert into tb_revoke (revokeId, revokeTime, entrustId, 
+      revokeNumber)
+    values (#{revokeid,jdbcType=VARCHAR}, #{revoketime,jdbcType=TIMESTAMP}, #{entrustid,jdbcType=VARCHAR}, 
+      #{revokenumber,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.Revoke">
+    insert into tb_revoke
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="revokeid != null">
+        revokeId,
+      </if>
+      <if test="revoketime != null">
+        revokeTime,
+      </if>
+      <if test="entrustid != null">
+        entrustId,
+      </if>
+      <if test="revokenumber != null">
+        revokeNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="revokeid != null">
+        #{revokeid,jdbcType=VARCHAR},
+      </if>
+      <if test="revoketime != null">
+        #{revoketime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entrustid != null">
+        #{entrustid,jdbcType=VARCHAR},
+      </if>
+      <if test="revokenumber != null">
+        #{revokenumber,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.Revoke">
+    update tb_revoke
+    <set>
+      <if test="revoketime != null">
+        revokeTime = #{revoketime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entrustid != null">
+        entrustId = #{entrustid,jdbcType=VARCHAR},
+      </if>
+      <if test="revokenumber != null">
+        revokeNumber = #{revokenumber,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where revokeId = #{revokeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.Revoke">
+    update tb_revoke
+    set revokeTime = #{revoketime,jdbcType=TIMESTAMP},
+      entrustId = #{entrustid,jdbcType=VARCHAR},
+      revokeNumber = #{revokenumber,jdbcType=DECIMAL}
+    where revokeId = #{revokeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.EntrustMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Entrust">
+    <id column="entrustId" jdbcType="VARCHAR" property="entrustid" />
+    <result column="userId" jdbcType="VARCHAR" property="userid" />
+    <result column="outCoinId" jdbcType="VARCHAR" property="outcoinid" />
+    <result column="inCoinId" jdbcType="VARCHAR" property="incoinid" />
+    <result column="entrustDirection" jdbcType="CHAR" property="entrustdirection" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="entrustNumber" jdbcType="DECIMAL" property="entrustnumber" />
+    <result column="coinPrice" jdbcType="DECIMAL" property="coinprice" />
+    <result column="serviceCharge" jdbcType="DECIMAL" property="servicecharge" />
+    <result column="transactionNumber" jdbcType="DECIMAL" property="transactionnumber" />
+    <result column="cancelNumber" jdbcType="DECIMAL" property="cancelnumber" />
+    <result column="surplusNumber" jdbcType="DECIMAL" property="surplusnumber" />
+    <result column="entrustTime" jdbcType="TIMESTAMP" property="entrusttime" />
+    <result column="status" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    entrustId, userId, outCoinId, inCoinId, entrustDirection, type, entrustNumber, coinPrice, 
+    serviceCharge, transactionNumber, cancelNumber, surplusNumber, entrustTime, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_entrust
+    where entrustId = #{entrustid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_entrust
+    where entrustId = #{entrustid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.Entrust">
+    insert into tb_entrust (entrustId, userId, outCoinId, 
+      inCoinId, entrustDirection, type, 
+      entrustNumber, coinPrice, serviceCharge, 
+      transactionNumber, cancelNumber, surplusNumber, 
+      entrustTime, status)
+    values (#{entrustid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{outcoinid,jdbcType=VARCHAR}, 
+      #{incoinid,jdbcType=VARCHAR}, #{entrustdirection,jdbcType=CHAR}, #{type,jdbcType=CHAR}, 
+      #{entrustnumber,jdbcType=DECIMAL}, #{coinprice,jdbcType=DECIMAL}, #{servicecharge,jdbcType=DECIMAL}, 
+      #{transactionnumber,jdbcType=DECIMAL}, #{cancelnumber,jdbcType=DECIMAL}, #{surplusnumber,jdbcType=DECIMAL}, 
+      #{entrusttime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.Entrust">
+    insert into tb_entrust
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="entrustid != null">
+        entrustId,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="outcoinid != null">
+        outCoinId,
+      </if>
+      <if test="incoinid != null">
+        inCoinId,
+      </if>
+      <if test="entrustdirection != null">
+        entrustDirection,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="entrustnumber != null">
+        entrustNumber,
+      </if>
+      <if test="coinprice != null">
+        coinPrice,
+      </if>
+      <if test="servicecharge != null">
+        serviceCharge,
+      </if>
+      <if test="transactionnumber != null">
+        transactionNumber,
+      </if>
+      <if test="cancelnumber != null">
+        cancelNumber,
+      </if>
+      <if test="surplusnumber != null">
+        surplusNumber,
+      </if>
+      <if test="entrusttime != null">
+        entrustTime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="entrustid != null">
+        #{entrustid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="outcoinid != null">
+        #{outcoinid,jdbcType=VARCHAR},
+      </if>
+      <if test="incoinid != null">
+        #{incoinid,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustdirection != null">
+        #{entrustdirection,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="entrustnumber != null">
+        #{entrustnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="coinprice != null">
+        #{coinprice,jdbcType=DECIMAL},
+      </if>
+      <if test="servicecharge != null">
+        #{servicecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="transactionnumber != null">
+        #{transactionnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="cancelnumber != null">
+        #{cancelnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusnumber != null">
+        #{surplusnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="entrusttime != null">
+        #{entrusttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.Entrust">
+    update tb_entrust
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="outcoinid != null">
+        outCoinId = #{outcoinid,jdbcType=VARCHAR},
+      </if>
+      <if test="incoinid != null">
+        inCoinId = #{incoinid,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustdirection != null">
+        entrustDirection = #{entrustdirection,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="entrustnumber != null">
+        entrustNumber = #{entrustnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="coinprice != null">
+        coinPrice = #{coinprice,jdbcType=DECIMAL},
+      </if>
+      <if test="servicecharge != null">
+        serviceCharge = #{servicecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="transactionnumber != null">
+        transactionNumber = #{transactionnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="cancelnumber != null">
+        cancelNumber = #{cancelnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusnumber != null">
+        surplusNumber = #{surplusnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="entrusttime != null">
+        entrustTime = #{entrusttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where entrustId = #{entrustid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.Entrust">
+    update tb_entrust
+    set userId = #{userid,jdbcType=VARCHAR},
+      outCoinId = #{outcoinid,jdbcType=VARCHAR},
+      inCoinId = #{incoinid,jdbcType=VARCHAR},
+      entrustDirection = #{entrustdirection,jdbcType=CHAR},
+      type = #{type,jdbcType=CHAR},
+      entrustNumber = #{entrustnumber,jdbcType=DECIMAL},
+      coinPrice = #{coinprice,jdbcType=DECIMAL},
+      serviceCharge = #{servicecharge,jdbcType=DECIMAL},
+      transactionNumber = #{transactionnumber,jdbcType=DECIMAL},
+      cancelNumber = #{cancelnumber,jdbcType=DECIMAL},
+      surplusNumber = #{surplusnumber,jdbcType=DECIMAL},
+      entrustTime = #{entrusttime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=CHAR}
+    where entrustId = #{entrustid,jdbcType=VARCHAR}
+  </update>
+</mapper>

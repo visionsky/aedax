@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.VerifyCodeMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.VerifyCode">
+    <id column="verifyCode_id" jdbcType="VARCHAR" property="verifycodeId" />
+    <result column="verifyPicCode" jdbcType="VARCHAR" property="verifypiccode" />
+    <result column="verifySmsCode" jdbcType="VARCHAR" property="verifysmscode" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="Source" jdbcType="CHAR" property="source" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="expiredDate" jdbcType="TIMESTAMP" property="expireddate" />
+    <result column="status" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    verifyCode_id, verifyPicCode, verifySmsCode, user_id, Source, IP, type, phone,
+    expiredDate, status
+  </sql>
+
+
+  <insert id="insertSelective" parameterType="com.winter.model.VerifyCode">
+    insert into tb_verifycode
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      verifyCode_id,
+      <if test="verifypiccode != null">
+        verifyPicCode,
+      </if>
+      <if test="verifysmscode != null">
+        verifySmsCode,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="source != null">
+        Source,
+      </if>
+      <if test="ip != null">
+        IP,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="expireddate != null">
+        expiredDate,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{verifycodeId,jdbcType=VARCHAR},
+      <if test="verifypiccode != null">
+        #{verifypiccode,jdbcType=VARCHAR},
+      </if>
+      <if test="verifysmscode != null">
+        #{verifysmscode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=CHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="expireddate != null">
+        #{expireddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_verifycode
+    where verifyCode_id = #{verifycodeId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAll" parameterType="com.winter.model.VerifyCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_verifycode
+    <where>
+      <if test="verifycodeId != null and verifycodeId.length()>0 ">  verifyCode_id = #{verifycodeId,jdbcType=VARCHAR}</if>
+      <if test="userId != null and userId.length()>0 ">  user_id = #{userId,jdbcType=VARCHAR}</if>
+
+      <if test="source != null and source.length()>0">  and source=#{source}    </if>
+      <if test="ip != null and ip.length()>0"> and ip = #{ip}  </if>
+      <if test="type != null and type.length()>0">  and `type`=#{type}    </if>
+      <if test="userId != null and userId.length()>0"> and user_id = #{userId}  </if>
+      <if test="phone != null and phone.length()>0">  and phone=#{phone}    </if>
+      <if test="verifypiccode != null and verifypiccode.length()>0">  and verifyPicCode=#{verifypiccode}    </if>
+      <if test="verifysmscode != null and verifysmscode.length()>0">  and verifySmsCode=#{verifysmscode}    </if>
+      <if test="status != null and status.length()>0"> and status = #{status}  </if>
+    </where>
+
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_verifycode
+    where verifyCode_id = #{verifycodeId,jdbcType=VARCHAR}
+  </delete>
+
+ <update id="updateStatus" parameterType="java.lang.String">
+    update tb_verifycode set status = '3' where  verifyCode_id = #{verifycodeId,jdbcType=VARCHAR}
+ </update>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.VerifyCode">
+    update tb_verifycode
+    <set>
+      <if test="verifypiccode != null">
+        verifyPicCode = #{verifypiccode,jdbcType=VARCHAR},
+      </if>
+      <if test="verifysmscode != null">
+        verifySmsCode = #{verifysmscode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="expireddate != null">
+        expiredDate = #{expireddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    <where>
+      <if test="verifycodeId != null and verifycodeId.length()>0 ">  verifyCode_id = #{verifycodeId,jdbcType=VARCHAR}</if>
+      <if test="source != null and source.length()>0">  and source=#{source}    </if>
+      <if test="ip != null and ip.length()>0"> and ip = #{ip}  </if>
+    </where>
+  </update>
+
+</mapper>

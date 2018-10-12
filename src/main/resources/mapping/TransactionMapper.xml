@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.TransactionMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Transaction">
+    <id column="transactionId" jdbcType="VARCHAR" property="transactionid" />
+    <result column="buyerEntrustId" jdbcType="VARCHAR" property="buyerentrustid" />
+    <result column="sellerEntrustId" jdbcType="VARCHAR" property="sellerentrustid" />
+    <result column="transactionNumber" jdbcType="DECIMAL" property="transactionnumber" />
+    <result column="transactionTime" jdbcType="TIMESTAMP" property="transactiontime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    transactionId, buyerEntrustId, sellerEntrustId, transactionNumber, transactionTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_transaction
+    where transactionId = #{transactionid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_transaction
+    where transactionId = #{transactionid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.Transaction">
+    insert into tb_transaction (transactionId, buyerEntrustId, sellerEntrustId, 
+      transactionNumber, transactionTime)
+    values (#{transactionid,jdbcType=VARCHAR}, #{buyerentrustid,jdbcType=VARCHAR}, #{sellerentrustid,jdbcType=VARCHAR}, 
+      #{transactionnumber,jdbcType=DECIMAL}, #{transactiontime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.Transaction">
+    insert into tb_transaction
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transactionid != null">
+        transactionId,
+      </if>
+      <if test="buyerentrustid != null">
+        buyerEntrustId,
+      </if>
+      <if test="sellerentrustid != null">
+        sellerEntrustId,
+      </if>
+      <if test="transactionnumber != null">
+        transactionNumber,
+      </if>
+      <if test="transactiontime != null">
+        transactionTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transactionid != null">
+        #{transactionid,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerentrustid != null">
+        #{buyerentrustid,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerentrustid != null">
+        #{sellerentrustid,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionnumber != null">
+        #{transactionnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="transactiontime != null">
+        #{transactiontime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.Transaction">
+    update tb_transaction
+    <set>
+      <if test="buyerentrustid != null">
+        buyerEntrustId = #{buyerentrustid,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerentrustid != null">
+        sellerEntrustId = #{sellerentrustid,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionnumber != null">
+        transactionNumber = #{transactionnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="transactiontime != null">
+        transactionTime = #{transactiontime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where transactionId = #{transactionid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.Transaction">
+    update tb_transaction
+    set buyerEntrustId = #{buyerentrustid,jdbcType=VARCHAR},
+      sellerEntrustId = #{sellerentrustid,jdbcType=VARCHAR},
+      transactionNumber = #{transactionnumber,jdbcType=DECIMAL},
+      transactionTime = #{transactiontime,jdbcType=TIMESTAMP}
+    where transactionId = #{transactionid,jdbcType=VARCHAR}
+  </update>
+</mapper>

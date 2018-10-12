@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.User">
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="nickName" jdbcType="VARCHAR" property="nickname" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="idCardNum" jdbcType="VARCHAR" property="idcardnum" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="appPassword" jdbcType="VARCHAR" property="apppassword" />
+    <result column="payPassword" jdbcType="VARCHAR" property="paypassword" />
+    <result column="registerDate" jdbcType="TIMESTAMP" property="registerdate" />
+    <result column="inviteCode" jdbcType="VARCHAR" property="invitecode" />
+    <result column="inviteUserId" jdbcType="VARCHAR" property="inviteuserid" />
+    <result column="registerSource" jdbcType="CHAR" property="registersource" />
+    <result column="defaultBankCard_id" jdbcType="VARCHAR" property="defaultbankcardId" />
+    <result column="lastChangeDate" jdbcType="TIMESTAMP" property="lastchangedate" />
+    <result column="tokenId" jdbcType="VARCHAR" property="tokenid" />
+    <result column="tokenExpireDate" jdbcType="TIMESTAMP" property="tokenexpiredate" />
+    <result column="status" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, nickName, userName, phone, email, idCardNum, password, appPassword, payPassword, 
+    registerDate, inviteCode, inviteUserId, registerSource, defaultBankCard_id, lastChangeDate, 
+    tokenId, tokenExpireDate, status
+  </sql>
+  <select id="countUser"  resultType="java.lang.Long">
+    select count(user_id) from tb_user
+  </select>
+  <select id="getInviterUserId" parameterType="java.lang.String" resultType="java.lang.String">
+    select user_id from tb_user where  inviteCode=#{inviteCode}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkRegisterUser" parameterType="com.winter.model.User" resultType="java.lang.Integer">
+    select
+    count(user_id)
+    from tb_user
+    <where>
+      <if test="idcardnum != null and idcardnum.length()>0">  idCardNum = #{idcardnum}  </if>
+      <if test="phone != null and phone.length()>0">  and phone=#{phone}    </if>
+      <if test="email != null and email.length()>0">  and email=#{email}    </if>
+    </where>
+  </select>
+
+  <select id="getUserId" parameterType="java.lang.String" resultType="java.lang.String">
+    select    user_id    from tb_user
+    <where>
+      <if test="phone != null and phone.length()>0">   phone=#{phone}    </if>
+      <if test="nickname != null and nickname.length()>0">  and nickName = #{nickname}  </if>
+      <if test="email != null and email.length()>0">  and email=#{email}    </if>
+
+    </where>
+  </select>
+  <select id="getUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_id = #{userId} and tokenId = #{tokenid}
+  </select>
+  <update id="login" parameterType="java.lang.String">
+    update tb_user  set   tokenId = #{tokenid},tokenExpireDate=DATE_ADD(NOW(),INTERVAL 1 YEAR)   where user_id = #{userId} and password = #{password}
+  </update>
+  <update id="logout" parameterType="java.lang.String">
+    update tb_user   set    tokenId = '',tokenExpireDate= null where user_id = #{userId} and tokenId = #{tokenid}
+  </update>
+  <update id="changePassword" parameterType="java.lang.String">
+    update tb_user   set    password =  #{password}
+    <where>
+      user_id = #{userId} and tokenId = #{tokenid}
+      <if test="phone != null and phone.length()>0">  and phone=#{phone}    </if>
+    </where>
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.User">
+    insert into tb_user (user_id, nickName, userName, 
+      phone, email, idCardNum, 
+      password, appPassword, payPassword, 
+      registerDate, inviteCode, inviteUserId, 
+      registerSource, defaultBankCard_id, lastChangeDate, 
+      tokenId, tokenExpireDate, status
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{idcardnum,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{apppassword,jdbcType=VARCHAR}, #{paypassword,jdbcType=VARCHAR}, 
+      #{registerdate,jdbcType=TIMESTAMP}, #{invitecode,jdbcType=VARCHAR}, #{inviteuserid,jdbcType=VARCHAR}, 
+      #{registersource,jdbcType=CHAR}, #{defaultbankcardId,jdbcType=VARCHAR}, #{lastchangedate,jdbcType=TIMESTAMP}, 
+      #{tokenid,jdbcType=VARCHAR}, #{tokenexpiredate,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.User">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="nickname != null">
+        nickName,
+      </if>
+      <if test="username != null">
+        userName,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="idcardnum != null">
+        idCardNum,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="apppassword != null">
+        appPassword,
+      </if>
+      <if test="paypassword != null">
+        payPassword,
+      </if>
+      registerDate,
+      <if test="invitecode != null">
+        inviteCode,
+      </if>
+      <if test="inviteuserid != null">
+        inviteUserId,
+      </if>
+      <if test="registersource != null">
+        registerSource,
+      </if>
+      <if test="defaultbankcardId != null">
+        defaultBankCard_id,
+      </if>
+      lastChangeDate,
+      <if test="tokenid != null">
+        tokenId,
+      </if>
+      <if test="tokenexpiredate != null">
+        tokenExpireDate,
+      </if>
+
+        status,
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardnum != null">
+        #{idcardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="apppassword != null">
+        #{apppassword,jdbcType=VARCHAR},
+      </if>
+      <if test="paypassword != null">
+        #{paypassword,jdbcType=VARCHAR},
+      </if>
+      sysdate(),
+      <if test="invitecode != null">
+        #{invitecode,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteuserid != null">
+        #{inviteuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="registersource != null">
+        #{registersource,jdbcType=CHAR},
+      </if>
+      <if test="defaultbankcardId != null">
+        #{defaultbankcardId,jdbcType=VARCHAR},
+      </if>
+      sysdate(),
+      <if test="tokenid != null">
+        #{tokenid,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenexpiredate != null">
+        #{tokenexpiredate,jdbcType=TIMESTAMP},
+      </if>
+      '1',
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.User">
+    update tb_user
+    <set>
+      <if test="nickname != null">
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardnum != null">
+        idCardNum = #{idcardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="apppassword != null">
+        appPassword = #{apppassword,jdbcType=VARCHAR},
+      </if>
+      <if test="paypassword != null">
+        payPassword = #{paypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null">
+        registerDate = #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invitecode != null">
+        inviteCode = #{invitecode,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteuserid != null">
+        inviteUserId = #{inviteuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="registersource != null">
+        registerSource = #{registersource,jdbcType=CHAR},
+      </if>
+      <if test="defaultbankcardId != null">
+        defaultBankCard_id = #{defaultbankcardId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastchangedate != null">
+        lastChangeDate = #{lastchangedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tokenid != null">
+        tokenId = #{tokenid,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenexpiredate != null">
+        tokenExpireDate = #{tokenexpiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.User">
+    update tb_user
+    set nickName = #{nickname,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      idCardNum = #{idcardnum,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      appPassword = #{apppassword,jdbcType=VARCHAR},
+      payPassword = #{paypassword,jdbcType=VARCHAR},
+      registerDate = #{registerdate,jdbcType=TIMESTAMP},
+      inviteCode = #{invitecode,jdbcType=VARCHAR},
+      inviteUserId = #{inviteuserid,jdbcType=VARCHAR},
+      registerSource = #{registersource,jdbcType=CHAR},
+      defaultBankCard_id = #{defaultbankcardId,jdbcType=VARCHAR},
+      lastChangeDate = #{lastchangedate,jdbcType=TIMESTAMP},
+      tokenId = #{tokenid,jdbcType=VARCHAR},
+      tokenExpireDate = #{tokenexpiredate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=CHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

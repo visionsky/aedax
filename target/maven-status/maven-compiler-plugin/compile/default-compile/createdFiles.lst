@@ -1,0 +1,17 @@
+com\winter\model\Project.class
+com\winter\model\Role.class
+com\winter\service\user\UserService.class
+com\winter\service\project\ProjectService.class
+com\winter\mapper\RoleMapper.class
+com\winter\service\project\impl\ProjectServiceImpl.class
+com\winter\service\user\impl\UserServiceImpl.class
+com\winter\mapper\UserMapper.class
+com\winter\model\User.class
+com\winter\utils\JsonUtils$1.class
+com\winter\utils\JsonUtils.class
+com\winter\config\RedisConfig.class
+com\winter\SpringbootMybatisDemoApplication.class
+com\winter\utils\RedisService.class
+com\winter\mapper\ProjectMapper.class
+com\winter\config\RedisConfig$1.class
+com\winter\Controller\ProjectController.class
