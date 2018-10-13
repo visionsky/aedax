@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.winter.mapper.UserMapper;
 import  com.winter.utils.MD5Util;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Administrator on 2017/8/16.
  */
 @Service(value = "userService")
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -39,11 +41,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+
     public int logout(String userid, String tokenid) {
         return userMapper.logout(userid, tokenid);
     }
 
     @Override
+
     public String changePassword(String userid,String tokenid,String ip,String source,String phone,String verifyPicCode,String verifySmsCode,String password) {
         String uuid=queryVerifyCode( "",userid, source, phone, ip, verifyPicCode, verifySmsCode);
             if(uuid==null||uuid.isEmpty())
@@ -59,6 +63,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+
     public String registerUser(String uuid,String ip,String nickname,String phone,String source,String verifyPicCode,String verifySmsCode,String password,String inviteCode) {
         String email="";
         String inviteuserid="";

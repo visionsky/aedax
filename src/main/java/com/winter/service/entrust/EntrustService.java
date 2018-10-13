@@ -17,14 +17,14 @@ public interface EntrustService {
 
     //long getUserCount();
 
-    @Transactional
+
     String entrust(Entrust record);
     List<Entrust> queryEntrusts(Entrust record);
-    @Transactional
+
     String revoke(Revoke record);
     List<Revoke> queryRevokes(Revoke record);
-    @Transactional
-    String confirm(Transaction record);
+
+    String confirm(Transaction record,String entrustDirection);
     List<Transaction> queryTransactions(Transaction record);
 
 

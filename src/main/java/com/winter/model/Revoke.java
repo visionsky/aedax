@@ -16,8 +16,9 @@ public class Revoke {
     public Revoke(){
 
     }
-    public Revoke(String revokeid,String revokenumber){
+    public Revoke(String revokeid,String entrustid,String revokenumber){
         this.revokeid=revokeid;
+        this.entrustid=entrustid;
         this.revokenumber=new BigDecimal(revokenumber);
 
     }

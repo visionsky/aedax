@@ -10,6 +10,7 @@ import com.winter.utils.MD5Util;
 import com.winter.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by Administrator on 2017/8/16.
  */
 @Service(value = "entrustService")
+@Transactional
 public class EntrustServiceImpl implements EntrustService {
 
 
@@ -31,12 +33,13 @@ public class EntrustServiceImpl implements EntrustService {
     private TransactionMapper transactionMapper;//这里会报错，但是并不会影响
 
     @Override
+
     public String entrust(Entrust record) {
         String entrustId=StringUtils.UUID();
         record.setEntrustid(entrustId);
         BigDecimal amount=new BigDecimal("0.000");
         record.setCancelnumber(amount);
-        record.setSurplusnumber(amount);
+        record.setSurplusnumber(record.getEntrustnumber());
         record.setServicecharge(amount);
         record.setTransactionnumber(amount);
         int ret=entrustMapper.insert(record);
@@ -51,15 +54,18 @@ public class EntrustServiceImpl implements EntrustService {
     }
 
     @Override
+
     public String revoke(Revoke record) {
-        String entrustId=StringUtils.UUID();
-        record.setRevokeid(entrustId);
-        BigDecimal amount=new BigDecimal("0.000");
+        String revokeId=StringUtils.UUID();
+        record.setRevokeid(revokeId);
 
         int ret=revokeMapper.insert(record);
+        if(ret!=1){return "insert failed";}
+        ret=entrustMapper.revoke(record.getEntrustid(),record.getRevokenumber());
         if(ret==1)
-            return entrustId;
-        else return "";
+            return revokeId;
+        //else  return "update failed";
+       throw new RuntimeException("update failed "+record.getEntrustid() +" "    +record.getRevokenumber());
     }
 
     @Override
@@ -68,18 +74,42 @@ public class EntrustServiceImpl implements EntrustService {
     }
 
     @Override
-    public String confirm(Transaction record) {
-        String entrustId=StringUtils.UUID();
-        record.setTransactionid(entrustId);
-        BigDecimal amount=new BigDecimal("0.000");
 
-        record.setTransactionnumber(amount);
+    public String confirm(Transaction record,String entrustDirection) {
+        String transactionId=StringUtils.UUID();
+        record.setTransactionid(transactionId);
+        String entrustId="";
+
         int ret=transactionMapper.insert(record);
-        if(ret==1)
-            return entrustId;
-        else return "";
-    }
+        if(ret!=1){throw new RuntimeException("insert failed "+entrustId +" "    +record.getTransactionnumber());}
 
+        if(!record.getBuyerentrustid().isEmpty()&&record.getBuyerentrustid().length()==32&&entrustDirection.equals("0")) {
+            entrustId = record.getBuyerentrustid();
+
+        }
+        if(!record.getSellerentrustid().isEmpty()&&record.getSellerentrustid().length()==32&&entrustDirection.equals("1")) {
+            entrustId = record.getSellerentrustid();
+        }
+        ret = entrustMapper.confirm(entrustId, record.getTransactionnumber(),entrustDirection);
+        if(ret!=1){throw new RuntimeException("update failed "+entrustId +" "    +record.getTransactionnumber()+" "+entrustDirection);}
+         else
+            return transactionId;
+
+    }
+    public String confirm(Transaction record) {
+        String transactionId=StringUtils.UUID();
+        record.setTransactionid(transactionId);
+
+        int ret=transactionMapper.insert(record);
+        if(ret!=1){throw new RuntimeException("insert Failed " +" "    +record.getTransactionnumber());}
+        ret = entrustMapper.confirm(record.getBuyerentrustid(), record.getTransactionnumber(),"0");
+        if(ret!=1){throw new RuntimeException("update Buy Failed "+record.getBuyerentrustid() +" "    +record.getTransactionnumber());}
+        ret = entrustMapper.confirm(record.getSellerentrustid(), record.getTransactionnumber(),"1");
+        if(ret!=1){throw new RuntimeException("update Sell Failed "+record.getSellerentrustid() +" "    +record.getTransactionnumber());}
+        else
+            return transactionId;
+
+    }
     @Override
     public List<Transaction> queryTransactions(Transaction record) {
         return transactionMapper.select(record);

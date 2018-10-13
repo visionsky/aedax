@@ -61,12 +61,13 @@ public class EntrustController {
     }
 
     @PostMapping("/revoke/{source}")
-    @RequestMapping("/revoke/{source}/{entrustId}/{revokeNumber}")
-    public String revoke(@PathVariable("source") String source,@PathVariable("entrustId") String entrustId,@PathVariable("revokeNumber") String revokeNumber) {
+    @RequestMapping("/revoke/{source}/{entrustId}/{revokeNumber}/{entrustDirection}")
+    public String revoke(@PathVariable("source") String source,@PathVariable("entrustId") String entrustId,@PathVariable("revokeNumber") String revokeNumber,@PathVariable("entrustDirection") String entrustDirection) {
 
         String revokeId=StringUtils.UUID();
-        Revoke record=new Revoke(revokeId,revokeNumber);
+        Revoke record=new Revoke(revokeId,entrustId,revokeNumber);
         //String ip = IPUtil.getIP(request);
+        //return  revokeId+entrustId+revokeNumber;
         return entrustService.revoke(record);
 
         //int ret=verifyService.saveUUId(entrustId,source,ip);
@@ -77,20 +78,20 @@ public class EntrustController {
     @RequestMapping("/queryRevokeAll/{source}")
     public List<Revoke> queryRevokeAll(@PathVariable("source") String source) {
 
-        Revoke record=new Revoke("","0");
+        Revoke record=new Revoke("","","0");
         // record.setStatus("");
         return entrustService.queryRevokes(record);
 
     }
 
     @PostMapping("/Transaction/{source}")
-    @RequestMapping("/Transaction/{source}/{buyerEntrustId}/{sellerEntrustId}/{transactionNumber}")
-    public String Transaction(@PathVariable("source") String source,@PathVariable("buyerEntrustId") String buyerEntrustId,@PathVariable("sellerEntrustId") String sellerEntrustId,@PathVariable("transactionNumber") String transactionNumber) {
+    @RequestMapping("/Transaction/{source}/{buyerEntrustId}/{sellerEntrustId}/{transactionNumber}/{entrustDirection}")
+    public String Transaction(@PathVariable("source") String source,@PathVariable("buyerEntrustId") String buyerEntrustId,@PathVariable("sellerEntrustId") String sellerEntrustId,@PathVariable("transactionNumber") String transactionNumber,@PathVariable("entrustDirection") String entrustDirection) {
 
         String transactionId=StringUtils.UUID();
         Transaction record=new Transaction(transactionId,buyerEntrustId,sellerEntrustId,transactionNumber);
         //String ip = IPUtil.getIP(request);
-        return entrustService.confirm(record);
+        return entrustService.confirm(record,entrustDirection);
 
         //int ret=verifyService.saveUUId(entrustId,source,ip);
         //return entrustId;
