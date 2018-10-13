@@ -1,28 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.winter.mapper.BankCardMapper">
-    <select id="selectByUserId" parameterType="String" resultType="com.winter.model.BankCard">
-        select * from  tb_bankCard where  user_id=#{id}
-
-    </select>
-
-    <insert id="addBankCard" parameterType="com.winter.model.BankCard">
-        insert  into tb_bankCard
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="bank_id !=null and bank_id !=''"></if>
-
-        </trim>
-
-    </insert>
-
-    <delete id="deleteByBankCardId" parameterType="String">
-        delete from tb_bankCard where  bank_id=#{bank_id}
-
-    </delete>
-
-    <delete id="deleteByUserId" parameterType="String">
-        delete from tb_bankCard where  user_id=#{user_id}
-    </delete>
-
+<mapper namespace="com.winter.mapper.BankcardMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Bankcard">
+    <id column="bankCard_id" jdbcType="VARCHAR" property="bankcardId" />
+    <result column="bankCardNumber" jdbcType="VARCHAR" property="bankcardnumber" />
+    <result column="bankCardName" jdbcType="VARCHAR" property="bankcardname" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="bankCardAddress" jdbcType="VARCHAR" property="bankcardaddress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bankCard_id, bankCardNumber, bankCardName, user_id, bankCardAddress
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_bankcard
+    where bankCard_id = #{bankcardId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_bankcard
+    where bankCard_id = #{bankcardId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.Bankcard">
+    insert into tb_bankcard (bankCard_id, bankCardNumber, bankCardName, 
+      user_id, bankCardAddress)
+    values (#{bankcardId,jdbcType=VARCHAR}, #{bankcardnumber,jdbcType=VARCHAR}, #{bankcardname,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{bankcardaddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.Bankcard">
+    insert into tb_bankcard
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bankcardId != null">
+        bankCard_id,
+      </if>
+      <if test="bankcardnumber != null">
+        bankCardNumber,
+      </if>
+      <if test="bankcardname != null">
+        bankCardName,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="bankcardaddress != null">
+        bankCardAddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bankcardId != null">
+        #{bankcardId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardnumber != null">
+        #{bankcardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardname != null">
+        #{bankcardname,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardaddress != null">
+        #{bankcardaddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.Bankcard">
+    update tb_bankcard
+    <set>
+      <if test="bankcardnumber != null">
+        bankCardNumber = #{bankcardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardname != null">
+        bankCardName = #{bankcardname,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardaddress != null">
+        bankCardAddress = #{bankcardaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bankCard_id = #{bankcardId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.Bankcard">
+    update tb_bankcard
+    set bankCardNumber = #{bankcardnumber,jdbcType=VARCHAR},
+      bankCardName = #{bankcardname,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      bankCardAddress = #{bankcardaddress,jdbcType=VARCHAR}
+    where bankCard_id = #{bankcardId,jdbcType=VARCHAR}
+  </update>
 </mapper>

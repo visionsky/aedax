@@ -1,17 +1,17 @@
 package com.winter.mapper;
 
-import com.winter.model.BankCard;
+import com.winter.model.Bankcard;
 
-import java.util.List;
+public interface BankcardMapper {
+    int deleteByPrimaryKey(String bankcardId);
 
-public interface BankCardMapper {
+    int insert(Bankcard record);
 
-    List<BankCard> selectByUserId(String user_id);
+    int insertSelective(Bankcard record);
 
-    void addBankCard(BankCard bankCard);
+    Bankcard selectByPrimaryKey(String bankcardId);
 
-    void  deleteByBankCardId(String bank_id);
+    int updateByPrimaryKeySelective(Bankcard record);
 
-    void  deleteByUserId(String user_id);
-
+    int updateByPrimaryKey(Bankcard record);
 }

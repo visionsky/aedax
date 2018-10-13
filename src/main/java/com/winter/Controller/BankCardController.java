@@ -1,7 +1,5 @@
 package com.winter.Controller;
 
-import com.winter.model.BankCard;
-import com.winter.service.bank.BankCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +8,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bankCard")
 public class BankCardController {
-
+/*
     @Autowired
     private BankCardService bankCardService;
 
@@ -41,4 +39,5 @@ public class BankCardController {
 
         bankCardService.deleteByUserId(user_id);
     }
+    */
 }

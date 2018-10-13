@@ -21,10 +21,10 @@
     select * from tb_transaction
     <where>
       <if test="transactionid != null and transactionid.length()>0">  transactionId = #{transactionid}  </if>
-      <if test="buyerentrustid != null and buyerentrustid.length()>0">  buyerEntrustId = #{buyerentrustid}  </if>
-      <if test="sellerentrustid != null and sellerentrustid.length()>0">  sellerEntrustId = #{sellerentrustid}  </if>
-      <if test="transactionnumber != null ">  transactionNumber = #{transactionnumber}  </if>
-      <if test="transactiontime != null and transactiontime.length()>0">  transactionTime = #{transactiontime}  </if>
+      <if test="buyerentrustid != null and buyerentrustid.length()>0"> and   buyerEntrustId = #{buyerentrustid}  </if>
+      <if test="sellerentrustid != null and sellerentrustid.length()>0"> and  sellerEntrustId = #{sellerentrustid}  </if>
+      <if test="transactionnumber != null and transactionnumber !=0"> and  transactionNumber = #{transactionnumber}  </if>
+      <if test="transactiontime != null and transactiontime.length()>0"> and  transactionTime = #{transactiontime}  </if>
 
     </where>
   </select>
@@ -71,7 +71,7 @@
         #{transactionnumber,jdbcType=DECIMAL},
       </if>
       <if test="transactiontime != null">
-        #{transactiontime,jdbcType=TIMESTAMP},
+        sysdate(),
       </if>
     </trim>
   </insert>

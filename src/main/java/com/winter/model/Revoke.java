@@ -12,6 +12,16 @@ public class Revoke {
 
     private BigDecimal revokenumber;
 
+
+    public Revoke(){
+
+    }
+    public Revoke(String revokeid,String revokenumber){
+        this.revokeid=revokeid;
+        this.revokenumber=new BigDecimal(revokenumber);
+
+    }
+
     public String getRevokeid() {
         return revokeid;
     }

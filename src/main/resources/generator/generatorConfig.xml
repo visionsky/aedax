@@ -39,6 +39,6 @@
   <table tableName="tb_Asset" domainObjectName="Asset" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
    <table tableName="tb_coin" domainObjectName="Coin" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         -->
-        <table tableName="tb_assetChange" domainObjectName="AssetChange" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="tb_bankcard" domainObjectName="Bankcard" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
    </context>
 </generatorConfiguration>

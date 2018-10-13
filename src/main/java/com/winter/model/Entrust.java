@@ -31,6 +31,22 @@ public class Entrust {
     private Date entrusttime;
 
     private String status;
+    public Entrust()
+    {
+
+    }
+
+    public Entrust(String entrustId,String userId,String outCoinId,String inCoinId,String entrustDirection,String entrustNumber,String coinPrice,String type){
+        this.entrustid=entrustId;
+        this.userid=userId;
+        this.outcoinid= outCoinId;
+        this.entrustdirection=entrustDirection;
+        this.incoinid=inCoinId;
+        this.entrustnumber=new BigDecimal(entrustNumber);
+        this.coinprice=new BigDecimal(coinPrice);
+        this.type=type;
+
+    }
 
     public String getEntrustid() {
         return entrustid;

@@ -31,18 +31,18 @@
     select * from tb_entrust
     <where>
       <if test="userid != null and userid.length()>0">  userId = #{userid}  </if>
-      <if test="outcoinid != null and outcoinid.length()>0">  outCoinId = #{outcoinid}  </if>
-      <if test="incoinid != null and incoinid.length()>0">  inCoinId = #{incoinid}  </if>
-      <if test="entrustdirection != null and entrustdirection.length()>0">  entrustDirection = #{entrustdirection}  </if>
-      <if test="type != null and type.length()>0">  type = #{type}  </if>
-      <if test="entrustnumber != null ">  entrustNumber = #{entrustnumber}  </if>
-      <if test="coinprice != null ">  coinPrice = #{coinprice}  </if>
-      <if test="servicecharge != null ">  serviceCharge = #{servicecharge}  </if>
-      <if test="transactionnumber != null ">  transactionNumber = #{transactionnumber}  </if>
-      <if test="cancelnumber != null ">  cancelNumber = #{cancelnumber}  </if>
-      <if test="surplusnumber != null ">  surplusNumber = #{surplusnumber}  </if>
-      <if test="entrusttime != null and entrusttime.length()>0">  entrustTime = #{entrusttime}  </if>
-      <if test="status != null and status.length()>0">  status = #{status}  </if>
+      <if test="outcoinid != null and outcoinid.length()>0">  and  outCoinId = #{outcoinid}  </if>
+      <if test="incoinid != null and incoinid.length()>0">  and inCoinId = #{incoinid}  </if>
+      <if test="entrustdirection != null and entrustdirection.length()>0">  and entrustDirection = #{entrustdirection}  </if>
+      <if test="type != null and type.length()>0">  and type = #{type}  </if>
+      <if test="entrustnumber != null and entrustnumber !=0">  and  entrustNumber = #{entrustnumber}  </if>
+      <if test="coinprice != null and coinprice !=0">  and coinPrice = #{coinprice}  </if>
+      <if test="servicecharge != null and servicecharge !=0">  and serviceCharge = #{servicecharge}  </if>
+      <if test="transactionnumber != null and transactionnumber !=0">  and transactionNumber = #{transactionnumber}  </if>
+      <if test="cancelnumber != null and cancelnumber !=0">  and cancelNumber = #{cancelnumber}  </if>
+      <if test="surplusnumber != null and surplusnumber !=0">  and surplusNumber = #{surplusnumber}  </if>
+      <if test="entrusttime != null and entrusttime.length()>0">  and entrustTime = #{entrusttime}  </if>
+      <if test="status != null and status.length()>0">  and status = #{status}  </if>
     </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

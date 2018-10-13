@@ -14,6 +14,16 @@ public class Transaction {
 
     private Date transactiontime;
 
+    public Transaction(){
+
+    }
+    public Transaction(String transactionId,String buyerentrustid,String sellerentrustid,String transactionNumber){
+        this.transactionid=transactionId;
+        this.buyerentrustid=buyerentrustid;
+        this.sellerentrustid=sellerentrustid;
+        this.transactionnumber=new BigDecimal(transactionNumber);
+
+    }
     public String getTransactionid() {
         return transactionid;
     }

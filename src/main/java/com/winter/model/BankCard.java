@@ -1,54 +1,53 @@
 package com.winter.model;
 
-public class BankCard {
+public class Bankcard {
+    private String bankcardId;
 
-    private  String  bankCard_id;
+    private String bankcardnumber;
 
-    private  String  bankCardNumber;
+    private String bankcardname;
 
-    private  String bankCardName;
+    private String userId;
 
-    private  String user_id;
+    private String bankcardaddress;
 
-    public BankCard() {
+    public String getBankcardId() {
+        return bankcardId;
     }
 
-    public BankCard(String bankCard_id, String bankCardNumber, String bankCardName, String user_id) {
-        this.bankCard_id = bankCard_id;
-        this.bankCardNumber = bankCardNumber;
-        this.bankCardName = bankCardName;
-        this.user_id = user_id;
+    public void setBankcardId(String bankcardId) {
+        this.bankcardId = bankcardId == null ? null : bankcardId.trim();
     }
 
-    public String getBankCard_id() {
-        return bankCard_id;
+    public String getBankcardnumber() {
+        return bankcardnumber;
     }
 
-    public void setBankCard_id(String bankCard_id) {
-        this.bankCard_id = bankCard_id;
+    public void setBankcardnumber(String bankcardnumber) {
+        this.bankcardnumber = bankcardnumber == null ? null : bankcardnumber.trim();
     }
 
-    public String getBankCardNumber() {
-        return bankCardNumber;
+    public String getBankcardname() {
+        return bankcardname;
     }
 
-    public void setBankCardNumber(String bankCardNumber) {
-        this.bankCardNumber = bankCardNumber;
+    public void setBankcardname(String bankcardname) {
+        this.bankcardname = bankcardname == null ? null : bankcardname.trim();
     }
 
-    public String getBankCardName() {
-        return bankCardName;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setBankCardName(String bankCardName) {
-        this.bankCardName = bankCardName;
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getBankcardaddress() {
+        return bankcardaddress;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setBankcardaddress(String bankcardaddress) {
+        this.bankcardaddress = bankcardaddress == null ? null : bankcardaddress.trim();
     }
 }
